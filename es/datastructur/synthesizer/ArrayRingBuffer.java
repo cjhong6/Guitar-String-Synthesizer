@@ -1,7 +1,7 @@
 package es.datastructur.synthesizer;
-import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class ArrayRingBuffer<T> implements BoundedQueue<T> {
+public class ArrayRingBuffer<T> implements BoundedQueue<T>{
     /* Index for the next dequeue or peek. */
     private int first;
     /* Index for the next enqueue. */
@@ -10,6 +10,29 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     private int fillCount;
     /* Array for storing the buffer data. */
     private T[] rb;
+
+
+    private class ARIterator implements Iterator<T>{
+      T[] array;
+      int index;
+
+      public ARIterator(T[] orignalArray, int first){
+        array = orignalArray;
+        index = first;
+      }
+
+      @Override
+      public boolean hasNext(){
+        return index<index+fillCount;
+      }
+      @Override
+      public T next(){
+        if(!hasNext()) throw new NoSuchElementException();
+        T item = array[index%array.length];
+        index++;
+        return item;
+      }
+    }
 
     /**
      * Create a new ArrayRingBuffer with the given capacity.
@@ -66,10 +89,9 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
       return rb.length;
     }
 
-    public void printArray(){
-      for(int i=first; i<first+fillCount; i++){
-        System.out.println(rb[i%rb.length]);
-      }
+    @Override
+    public Iterator<T> iterator(){
+      return new ARIterator(rb,first);
     }
 
     public static void main(String [] args){
@@ -79,6 +101,9 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
       list.enqueue(3);
       list.enqueue(4);
       list.printArray();
+      for(Integer n : list){
+        System.out.prtinln(n);
+      }
     }
 
     // TODO: When you get to part 4, implement the needed code to support

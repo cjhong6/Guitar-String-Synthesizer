@@ -1,5 +1,6 @@
 /** A client that uses the synthesizer package to replicate a plucked guitar string sound */
 import es.datastructur.synthesizer.GuitarString;
+import edu.princeton.cs.algs4.StdAudio;
 
 public class GuitarHeroLite {
     private static final double CONCERT_A = 440.0;
@@ -9,6 +10,7 @@ public class GuitarHeroLite {
         /* create two guitar strings, for concert A and C */
         GuitarString stringA = new GuitarString(CONCERT_A);
         GuitarString stringC = new GuitarString(CONCERT_C);
+        String keyboard = "q2we4r5ty7u8i9op-[=zxdcfvgbnjmk,.;/' ";
 
         while (true) {
 
@@ -34,4 +36,3 @@ public class GuitarHeroLite {
         }
     }
 }
-
